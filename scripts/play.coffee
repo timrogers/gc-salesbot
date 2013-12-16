@@ -15,16 +15,27 @@ module.exports = (robot) ->
 
   without_extension = (f) -> f.split('.')[0]
 
-  descriptions = {
-  	"bell": "FIGHT!",
-  	"celebrate": "Celeeeeeebrate good times!",
-  	"countdown": "The clock begins...",
-  	"darts": "*LADDISH CHANT*",
-  	"fired": "http://i.dailymail.co.uk/i/pix/2009/03/26/article-1164849-041ABF68000005DC-138_468x286.jpg"
-  }
+  descriptions = 
+    bell: 'FIGHT!'
+    celebrate: 'Ceeeeeeeelebrate good times!'
+    countdown: 'The clock begins...'
+    timmy: 'Oh, Timmy Rogers...'
+    blobbo: "https://gocardless.com/assets/home/team/matt@2x-c1a6b08b64348cd2d29906d50cd08c8a.jpg"
+    darts: "*LADDISH CHANT*"
+    timmy: "Oh, Timmy Rogers..."
+
+  get_local_ip = ->
+    os = require('os')
+    interfaces = os.networkInterfaces()
+    addresses = []
+    for interface_name, addresses of interfaces
+      for address in addresses
+        if address.family == 'IPv4' && !address.internal
+            addresses.push(address.address)
+    addresses.join(", ")
 
   robot.respond /(.*)$/i, (msg) ->
-  	unless msg.match[1] == "sounds"
+  	unless msg.match[1] == "sounds" || msg.match[1] == "ip"
 	    path_to_mp3 = path.resolve(dir, "#{msg.match[1]}.mp3")
 
 	    fs.exists path_to_mp3, (exists) ->
@@ -34,15 +45,15 @@ module.exports = (robot) ->
 	    		pipe.on 'format', (format) ->
 	    			this.pipe(new Speaker(format))
 
-	    		console.log msg.match[1]
-	    		console.log descriptions
-
 	    		if descriptions.hasOwnProperty(msg.match[1])
 	    			msg.send descriptions[msg.match[1]]
 	    		else
 	    			msg.send "Playing sound #{msg.match[1]}..."
 	    	else
 	    		msg.send "Sound '#{msg.match[1]}' does not exist"
+
+  robot.respond /ip/i, (msg) ->
+    msg.send "My current local IP is #{get_local_ip()}."
 
   robot.respond /sounds/i, (msg) ->
   	filenames = fs.readdirSync(dir).map (filename) ->

@@ -23,6 +23,9 @@ module.exports = (robot) ->
     blobbo: "https://gocardless.com/assets/home/team/matt@2x-c1a6b08b64348cd2d29906d50cd08c8a.jpg"
     darts: "*LADDISH CHANT*"
     timmy: "Oh, Timmy Rogers..."
+    unbelievable: "Unbelievable Jeff!"
+    applause: "*applause*"
+    alan: "ALAN! ALAN! AL!"
 
   get_local_ip = ->
     os = require('os')

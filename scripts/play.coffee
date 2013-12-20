@@ -26,6 +26,7 @@ module.exports = (robot) ->
     unbelievable: "Unbelievable Jeff!"
     applause: "*applause*"
     alan: "ALAN! ALAN! AL!"
+    jobs: "https://gocardless.com/assets/home/team/nabeel@2x-ab674c1866e583de77e63c346e25136a.png"
 
   get_local_ip = ->
     os = require('os')
